@@ -9,3 +9,5 @@
 import biblioteca as bib
 
 # -----------------------------------------------------------------------------#
+
+bib.analise("dadosTrabalhoRNA.xlsx")

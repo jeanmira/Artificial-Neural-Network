@@ -11,8 +11,7 @@ all: packages run
 
 packages:
 	sudo apt-get update
-	pip3 install pygame
-	pip3 install numpy
+	pip3 install openpyxl
 	pip3 install pybrain3
 	sudo apt-get update
 	sudo apt-get upgrade
