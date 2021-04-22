@@ -40,6 +40,9 @@ def analise(nomeDoArquivo):
         entrada.append(int(folha.cell(row=i+1, column=2).value))
         saida.append(int(folha.cell(row=i+1, column=3).value))
 
+    """ for i in range(len(entrada)):
+        print(entrada[i], saida[i]) """
+
     # Alimentação na rede
 
     for i in range(len(entrada)):
@@ -53,5 +56,8 @@ def analise(nomeDoArquivo):
         # if(i % 500 == 0):
         print("Erro:", erro)
 
-    print("Entrada: ")
-    print("Saida: ", rede.activate((input())))
+    usuario = 0
+    while(usuario != -1):
+        usuario = input()
+        print("Entrada: ")
+        print("Saida: ", rede.activate(usuario))
