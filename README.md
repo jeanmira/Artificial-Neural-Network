@@ -10,7 +10,7 @@
 
 #### Como executar:
  
-    • Pelo terminal executar o comando “make run”;
+    • Pelo terminal executar o comando $ make run
 
 
 
