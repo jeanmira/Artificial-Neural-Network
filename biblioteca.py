@@ -10,6 +10,7 @@
 import os
 import openpyxl
 import matplotlib.pyplot as plt
+import pickle
 
 from pybrain3.tools.shortcuts import buildNetwork
 from pybrain3.datasets import SupervisedDataSet
@@ -19,6 +20,8 @@ from pybrain3.supervised.trainers import BackpropTrainer
 
 def analise(nomeDoArquivo):
     interacoes = 5000  # Número de interações
+    fileObject = open('redesalva.xml', 'wb')  # Abre arquivo
+
     # Definição da rede
     # rede = buildNetwork(Neurônios camada de entrada, Neurônios camada oculta, Neurônios camada de  saída, Unidade de Bias(valor unitário conectado a um neurônio))
     base = SupervisedDataSet(1, 1)
@@ -76,6 +79,9 @@ def analise(nomeDoArquivo):
         # print("[", i, "]")
         treinamento.train()
 
+    pickle.dump(rede, fileObject)  # Guarda dados de treino
+    fileObject.close()  # Fecha arquivo
+
     # Faz o gráfico dos dados de treino da saída real x saída da rede neural artificial (opcional)
     """ dadoSaida = []
     for i in range(len(entradaTreino)):
@@ -98,18 +104,30 @@ def analise(nomeDoArquivo):
     for i in range(len(normalEntradaTeste)):
         dadoSaida.append(rede.activate([normalEntradaTeste[i]]))
 
-    plt.figure(figsize=(7, 5))
-    plt.plot(normalSaidaTeste, color='green',
-             label='Saída teste real')
-    plt.plot(dadoSaida, color='red', label='Saída teste rede neural')
-    plt.grid(True)
-    plt.legend()
-    plt.title('Saída teste real x Saída teste rede neural')
+    # Plot
+    fig, axs = plt.subplots(2)
+    # Visualizando os dados de erro e validação
+    trnerr, valerr = treinamento.trainUntilConvergence(
+        dataset=base, maxEpochs=10)
+    axs[0].set_title('Dados de erro e validação')
+    axs[0].plot(trnerr, 'b', valerr, 'r')
+
+    axs[1].plot(normalSaidaTeste, color='green',
+                label='Saída teste real')
+    axs[1].plot(dadoSaida, color='red', label='Saída teste rede neural')
+    axs[1].grid(True)
+    # axs[1].legend()
+    axs[1].set_title('Saída teste real x Saída teste rede neural')
     # plt.text(24, 0.06, "Número de interações: 50000")
     # plt.text(24, 0.01, "buildNetwork(1, 60, 60, 60, 60, 60, 1)")
     # plt.savefig("Dados_teste_5x60_50000.png")
+    fig.tight_layout()
     plt.show()
 
+
+def aplicacao():
+    fileObject = open('redesalva.xml', 'rb')
+    rede = pickle.load(fileObject)
     # Interação com o usuário
     """ usuario = 0
     while(usuario != -1):
