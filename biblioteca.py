@@ -75,9 +75,11 @@ def analise(nomeDoArquivo):
 
     treinamento = BackpropTrainer(rede, dataset=base, verbose=True)
 
+    erro = 0
     for i in range(1, interacoes):
         # print("[", i, "]")
-        treinamento.train()
+        erro += treinamento.train()
+    erro /= interacoes
 
     pickle.dump(rede, fileObject)  # Guarda dados de treino
     fileObject.close()  # Fecha arquivo
@@ -101,27 +103,18 @@ def analise(nomeDoArquivo):
 
     # Avaliando a rede com os dados de teste, faz o gráfico dos dados de teste da saída real x saída da rede neural artificial
     dadoSaida = []
-    for i in range(len(normalEntradaTeste)):
+    for i in range(len(entradaTreino)):
         dadoSaida.append(rede.activate([normalEntradaTeste[i]]))
 
-    # Plot
-    fig, axs = plt.subplots(2)
-    # Visualizando os dados de erro e validação
-    trnerr, valerr = treinamento.trainUntilConvergence(
-        dataset=base, maxEpochs=10)
-    axs[0].set_title('Dados de erro e validação')
-    axs[0].plot(trnerr, 'b', valerr, 'r')
-
-    axs[1].plot(normalSaidaTeste, color='green',
-                label='Saída teste real')
-    axs[1].plot(dadoSaida, color='red', label='Saída teste rede neural')
-    axs[1].grid(True)
-    # axs[1].legend()
-    axs[1].set_title('Saída teste real x Saída teste rede neural')
-    # plt.text(24, 0.06, "Número de interações: 50000")
-    # plt.text(24, 0.01, "buildNetwork(1, 60, 60, 60, 60, 60, 1)")
-    # plt.savefig("Dados_teste_5x60_50000.png")
-    fig.tight_layout()
+    plt.figure(figsize=(7, 5))
+    plt.plot(normalSaidaTreino, color='green',
+             label='Saída treino real')
+    plt.plot(dadoSaida, color='red', label='Saída treino rede neural')
+    plt.grid(True)
+    plt.legend()
+    plt.text(7, 0, "Erro: " + str(erro))
+    plt.title('Saída teste real x Saída teste rede neural')
+    plt.savefig("teste.png")
     plt.show()
 
 
