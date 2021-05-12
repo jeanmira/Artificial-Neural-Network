@@ -11,6 +11,7 @@ import os
 import openpyxl
 import matplotlib.pyplot as plt
 import pickle
+import math
 
 from pybrain3.tools.shortcuts import buildNetwork
 from pybrain3.datasets import SupervisedDataSet
@@ -25,7 +26,7 @@ def analise(nomeDoArquivo):
     # Definição da rede
     # rede = buildNetwork(Neurônios camada de entrada, Neurônios camada oculta, Neurônios camada de  saída, Unidade de Bias(valor unitário conectado a um neurônio))
     base = SupervisedDataSet(1, 1)
-    rede = buildNetwork(base.indim, 60, 60, 60, 60, 60, base.outdim)
+    rede = buildNetwork(base.indim, 60, 60, 60, 60, 60, 60, base.outdim)
 
     # Manipulação de arquivos
     diretorio = os.getcwd()  # Salva os nome caminho do diretório
@@ -125,11 +126,12 @@ def aplicacao(min, max):
     # Interação com o usuário
 
     usuario = float(0)
-
+    print(min, max)
     while(usuario != -1):
         usuario = float(input("Entrada: "))
-        n = rede.activate(([float((usuario-min)/(max-min))]))
-        print("Saida: ", (n*max)+min*(1-n))
+        n = rede.activate(([float(usuario-min)/(max-min)]))
+        print(n, (round(n[0], 3)))
+        print("Saida: ", (round(n[0], 3) * (max-min) + min))
 
 
 def retornaMinMax(nomeDoArquivo):

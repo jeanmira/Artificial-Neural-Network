@@ -11,7 +11,7 @@ import biblioteca as bib
 import time
 # -----------------------------------------------------------------------------#
 
-usuario = input("Deseja treinar a rede < 1 para sim / 2 para não >:")
+usuario = input("Deseja treinar a rede < 1 para sim / 2 para não >: ")
 
 if(usuario == "1"):
     inicio = time.time()  # Calcula o tempo inicial de execução
@@ -22,4 +22,3 @@ if(usuario == "1"):
 if(usuario == "2"):
     min, max = bib.retornaMinMax("dadosTrabalhoRNA.xlsx")
     bib.aplicacao(min, max)
-    print("a")
