@@ -10,7 +10,16 @@
 import biblioteca as bib
 import time
 # -----------------------------------------------------------------------------#
-inicio = time.time()  # Calcula o tempo inicial de execução
-bib.analise("dadosTrabalhoRNA.xlsx")
-fim = time.time()  # Calcula o tempo final de execução
-print('Tempo de execução:', fim - inicio)
+
+usuario = input("Deseja treinar a rede < 1 para sim / 2 para não >:")
+
+if(usuario == "1"):
+    inicio = time.time()  # Calcula o tempo inicial de execução
+    bib.analise("dadosTrabalhoRNA.xlsx")
+    fim = time.time()  # Calcula o tempo final de execução
+    print('Tempo de execução:', fim - inicio)
+
+if(usuario == "2"):
+    min, max = bib.retornaMinMax("dadosTrabalhoRNA.xlsx")
+    bib.aplicacao(min, max)
+    print("a")

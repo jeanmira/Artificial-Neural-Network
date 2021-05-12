@@ -103,29 +103,46 @@ def analise(nomeDoArquivo):
 
     # Avaliando a rede com os dados de teste, faz o gráfico dos dados de teste da saída real x saída da rede neural artificial
     dadoSaida = []
-    for i in range(len(entradaTreino)):
+    for i in range(len(entradaTeste)):
         dadoSaida.append(rede.activate([normalEntradaTeste[i]]))
 
     plt.figure(figsize=(7, 5))
-    plt.plot(normalSaidaTreino, color='green',
+    plt.plot(normalSaidaTeste, color='green',
              label='Saída treino real')
     plt.plot(dadoSaida, color='red', label='Saída treino rede neural')
     plt.grid(True)
     plt.legend()
-    plt.text(7, 0, "Erro: " + str(erro))
+    plt.text(6.5, 0, "Erro: " + str(erro))
     plt.title('Saída teste real x Saída teste rede neural')
     plt.savefig("teste.png")
     plt.show()
 
 
-def aplicacao():
+def aplicacao(min, max):
     fileObject = open('redesalva.xml', 'rb')
     rede = pickle.load(fileObject)
+
     # Interação com o usuário
-    """ usuario = 0
+
+    usuario = float(0)
+
     while(usuario != -1):
-        usuario = input()
-        print("Entrada: ")
-        n = rede.activate((usuario-min(entradaTreino)) /
-                          (max(entradaTreino)-min(entradaTreino)))
-        print("Saida: ", (n*max(entradaTreino)+min(entradaTreino)*(1-n))) """
+        usuario = float(input("Entrada: "))
+        n = rede.activate(([float((usuario-min)/(max-min))]))
+        print("Saida: ", (n*max)+min*(1-n))
+
+
+def retornaMinMax(nomeDoArquivo):
+    # Manipulação de arquivos
+    diretorio = os.getcwd()  # Salva os nome caminho do diretório
+
+    arquivo = openpyxl.load_workbook(
+        diretorio + "/" + nomeDoArquivo, data_only=True)
+    folha = arquivo.active
+
+    entradaTreino = []
+
+    for i in range(1, folha.max_row):
+        entradaTreino.append(float(folha.cell(row=i+1, column=2).value))
+
+    return(min(entradaTreino), max(entradaTreino))
