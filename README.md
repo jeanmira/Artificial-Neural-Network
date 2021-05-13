@@ -11,6 +11,11 @@
 #### Como executar:
  
     • Pelo terminal executar o comando $ make run
+    
+    
+#### Resultado RNA escolhida:
+![alt text](https://github.com/jeanmira/Rede-Neural-Artificial/blob/main/Imagens/rede_escolhida.png)
+
 
 
 
