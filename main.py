@@ -21,4 +21,5 @@ if(usuario == "1"):
 
 if(usuario == "2"):
     min, max = bib.retornaMinMax("dadosTrabalhoRNA.xlsx")
+    print("Digite -1 para sair")
     bib.aplicacao(min, max)

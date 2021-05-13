@@ -3,7 +3,7 @@
 # Criado por:   Jean Marcelo Mira Junior
 #               Victor Philos Donato Luiz da Silva
 # Versão: 1.0
-# Criado em: 22/05/3021
+# Criado em: 22/05/2021
 # Sistema operacional: Linux - Ubuntu 30.04.1 LTS
 # Python 3
 # ------------------------------ Pacotes --------------------------------------#
@@ -11,7 +11,6 @@ import os
 import openpyxl
 import matplotlib.pyplot as plt
 import pickle
-import math
 
 from pybrain3.tools.shortcuts import buildNetwork
 from pybrain3.datasets import SupervisedDataSet
@@ -20,13 +19,14 @@ from pybrain3.supervised.trainers import BackpropTrainer
 
 
 def analise(nomeDoArquivo):
-    interacoes = 5000  # Número de interações
+    interacoes = 2500  # Número de interações
     fileObject = open('redesalva.xml', 'wb')  # Abre arquivo
 
     # Definição da rede
     # rede = buildNetwork(Neurônios camada de entrada, Neurônios camada oculta, Neurônios camada de  saída, Unidade de Bias(valor unitário conectado a um neurônio))
     base = SupervisedDataSet(1, 1)
-    rede = buildNetwork(base.indim, 60, 60, 60, 60, 60, 60, base.outdim)
+    rede = buildNetwork(base.indim, 120, 350, 120, 300,
+                        120, 350, 500, 400, 100, base.outdim)
 
     # Manipulação de arquivos
     diretorio = os.getcwd()  # Salva os nome caminho do diretório
@@ -78,7 +78,7 @@ def analise(nomeDoArquivo):
 
     erro = 0
     for i in range(1, interacoes):
-        # print("[", i, "]")
+        print("[", i, "]")
         erro += treinamento.train()
     erro /= interacoes
 
@@ -91,16 +91,17 @@ def analise(nomeDoArquivo):
         dadoSaida.append(rede.activate([normalEntradaTreino[i]]))
 
     plt.figure(figsize=(7, 5))
-    plt.plot(normalSaidaTreino, color='green',
-             label='Saída treino real')
     plt.plot(dadoSaida, color='red', label='Saída treino rede neural')
+    plt.plot(normalSaidaTreino, 'k--', label='Saída treino real')
     plt.grid(True)
-    plt.legend()
     plt.title('Saída treino real x Saída treino rede neural')
-    plt.text(24, 0.06, "Número de interações: 5000")
-    plt.text(24, 0.01, "buildNetwork(1, 25, 25, 25, 25, 25, 1)")
-    plt.savefig("Dados_treino_5x25_5000.png")
-    # plt.show()
+    plt.text(1.5, 0.01, "Número de interações: 2500")
+    plt.text(
+        1.5, 0.06, "buildNetwork(1, 120, 350, 120, 300, 120, 350, 500, 400, 100, 1)")
+    plt.text(1.5, 0.11, "Erro: " + str(erro))
+    plt.legend()
+    plt.savefig("Dados_treino_FINAL_2500.png")
+    plt.show()
 
     # Avaliando a rede com os dados de teste, faz o gráfico dos dados de teste da saída real x saída da rede neural artificial
     """ dadoSaida = []
@@ -119,6 +120,7 @@ def analise(nomeDoArquivo):
     plt.show()
  """
 
+
 def aplicacao(min, max):
     fileObject = open('redesalva.xml', 'rb')
     rede = pickle.load(fileObject)
@@ -126,12 +128,10 @@ def aplicacao(min, max):
     # Interação com o usuário
 
     usuario = float(0)
-    print(min, max)
     while(usuario != -1):
         usuario = float(input("Entrada: "))
         n = rede.activate(([float(usuario-min)/(max-min)]))
-        print(n, (round(n[0], 3)))
-        print("Saida: ", (round(n[0], 3) * (max-min) + min))
+        print("Saida: ", (n[0] * (max-min) + min))
 
 
 def retornaMinMax(nomeDoArquivo):
