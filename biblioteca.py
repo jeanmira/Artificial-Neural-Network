@@ -85,8 +85,8 @@ def analise(nomeDoArquivo):
     pickle.dump(rede, fileObject)  # Guarda dados de treino
     fileObject.close()  # Fecha arquivo
 
-    # Faz o gráfico dos dados de treino da saída real x saída da rede neural artificial (opcional)
-    """ dadoSaida = []
+    # Faz o gráfico dos dados de treino da saída real x saída da rede neural artificial
+    dadoSaida = []
     for i in range(len(entradaTreino)):
         dadoSaida.append(rede.activate([normalEntradaTreino[i]]))
 
@@ -100,10 +100,10 @@ def analise(nomeDoArquivo):
     plt.text(24, 0.06, "Número de interações: 5000")
     plt.text(24, 0.01, "buildNetwork(1, 25, 25, 25, 25, 25, 1)")
     plt.savefig("Dados_treino_5x25_5000.png")
-    plt.show() """
+    # plt.show()
 
     # Avaliando a rede com os dados de teste, faz o gráfico dos dados de teste da saída real x saída da rede neural artificial
-    dadoSaida = []
+    """ dadoSaida = []
     for i in range(len(entradaTeste)):
         dadoSaida.append(rede.activate([normalEntradaTeste[i]]))
 
@@ -117,7 +117,7 @@ def analise(nomeDoArquivo):
     plt.title('Saída teste real x Saída teste rede neural')
     plt.savefig("teste.png")
     plt.show()
-
+ """
 
 def aplicacao(min, max):
     fileObject = open('redesalva.xml', 'rb')
